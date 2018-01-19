@@ -24,7 +24,7 @@ import java.security.InvalidKeyException;
 definition(
 	name: "Media Renderer Events ",
 	namespace: "smartthings",
-	author: "SmartThings",
+	author: "Ryan Casler",
 	description: "Play a sound,Radionomy station or custom message through your MediaRenderer,Sonos when the mode changes or other events occur.",
 	category: "SmartThings Labs",
 	iconUrl: "http://urbansa.com/icons/mr.png",
