@@ -72,7 +72,7 @@ def off() {
 	log.debug "Triggered CLOSE!!!"
 	sendEvent(name: "triggerswitch", value: "triggeroff", isStateChange: true)
     state.blinds = "off";
-	runCmd("0")
+	runCmd("100")
 }
 
 def setLevel(percent) {
