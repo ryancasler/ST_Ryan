@@ -77,8 +77,11 @@ def off() {
 
 def setLevel(percent) {
 	log.debug "setLevel: ${percent}, this"
-	sendEvent(name: "level", value: percent)
+	sendEvent(name: "triggerswitch", value: "triggeron", isStateChange: true)
+    state.blinds = "on";
+    sendEvent(name: "level", value: percent)
     runCmd("${percent}")
+
 }    
 
 def runCmd(String varCommand) {
