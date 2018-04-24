@@ -1,0 +1,263 @@
+// Copyright (c) <year>, <copyright holder>
+// All rights reserved.
+
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the <organization> nor the
+//       names of its contributors may be used to endorse or promote products
+//       derived from this software without specific prior written permission.
+//     * Redistribution of this software in source or binary forms shall be free
+//       of all charges or fees to the recipient of this software.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+// DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+// ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+/**
+
+ *  Spark Core
+
+ *
+
+ *  Author: Justin Wurth
+
+ *  Date: 2014-09-19
+/**
+ * 
+ *
+ 
+ *
+ */
+
+ preferences {
+
+    input("deviceId", "text", title: "Device ID")
+
+    input("token", "text", title: "Access Token")
+
+}
+
+
+    metadata {
+	   definition (name: "Spark/Photon WS2812b", namespace: "jjhtpc", author: "Justin Wurth") 
+		{capability "Color Control"
+		capability "Color Temperature"
+		capability "Switch"
+        capability "Switch Level"
+        capability "Refresh"
+        capability "Polling"
+        attribute "colorName", "string"
+         
+	}
+}
+
+	// tile definitions
+	
+command "alerts"
+
+command "moviedim"
+
+command "tvdim"
+
+command "effect1"
+
+command "effect2"
+	
+
+tiles {
+		standardTile("switch", "device.switch", width: 1, height: 1, canChangeIcon: false) {
+			
+	state "off", label: '${name}', action: "switch.on", icon: "st.Lighting.light13", backgroundColor: "#ffffff"
+			
+	state "on", label: '${name}', action: "switch.off", icon: "st.Lighting.light13", backgroundColor: "#79b821", iconColor: "#ffffff"
+		
+}
+
+standardTile("refresh", "device.switch", inactiveLabel: false, decoration: "flat") {
+			state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
+		}		
+
+     	
+standardTile("alerts", "device.alerts") {
+			
+	state "alerts", label: '${name}', action: "alerts", icon: "st.Lighting.light13", backgroundColor: "#ff0000", iconColor: "#ff0000"
+		
+}
+
+standardTile("tvdim", "device.tvdim") {
+
+		state "tvdim", label: '${name}', action: "tvdim", icon: "st.Lighting.light13", backgroundColor: "#d3d3d3", iconColor: "#ffffff"
+}
+
+standardTile("moviedim", "device.moviedim") {
+			
+state "moviedim", label: '${name}', action: "moviedim", icon: "st.Lighting.light13", backgroundColor: "#d3ffd3", iconColor: "#ffffff"
+}
+
+standardTile("effect1", "device.effect1") {
+			
+state "effect1", label: '${name}', action: "effect1", icon: "st.Lighting.light13", backgroundColor: "#d3ffd3", iconColor: "#ffffff"
+}
+       
+standardTile("effect2", "device.effect2") {
+			
+state "effect2", label: '${name}', action: "effect2", icon: "st.Lighting.light13", backgroundColor: "#d3ffd3", iconColor: "#ffffff"
+}
+              
+       
+
+standardTile("color", "device.color") {
+        	
+state "alerts", label: '${name}', action: "tvdim", icon: "st.Lighting.light13", backgroundColor: "#ff0000", iconColor: "#ffffff"
+       
+state "tvdim", label: '${name}', action: "moviedim", icon: "st.Lighting.light13", backgroundColor: "#d3d3d3", iconColor: "#ffffff"
+ 
+state "moviedim", label: '${name}', action: "alerts", icon: "st.Lighting.light13", backgroundColor: "#ffffff", iconColor: "#ffffff"
+}
+
+
+
+controlTile("levelSliderControl", "device.level", "slider", height: 1, width: 3, inactiveLabel: false, range:"(0..100)") {
+		state "level", action:"switch level.setLevel"
+	}
+
+controlTile("rgbSelector", "device.color", "color", height: 3, width: 3, inactiveLabel: false) {
+		     state "color", action:"setColor"
+             	}
+
+
+                
+main(["switch"])   
+details(["switch", "alerts", "tvdim", "moviedim", "effect1", "effect2", "refresh", "levelSliderControl", "rgbSelector"])
+	
+}
+
+
+
+
+def parse(String description) {
+	log.debug "This device does not support incoming events"
+	return null
+}
+def off(){
+	put '0'
+    sendEvent(name: "switch", value: "off" )
+    log.debug "switch is off"
+}
+
+def on() {
+	put '1'
+	sendEvent(name: "switch", value: "on" )
+    log.debug "switch is on"
+}
+
+def alerts() {
+	put '2'
+    sendEvent(name: "switch", value: "on" )
+    log.debug "this device is on alert"
+}
+
+def tvdim() {
+	put '3'
+    sendEvent(name: "switch", value: "on" )
+    log.debug "this device is on tvdim"
+}
+
+
+def moviedim() {
+	put '4'
+    sendEvent(name: "switch", value: "on" )
+}
+
+def effect1() {
+	put '5'
+    sendEvent(name: "switch", value: "on" )
+}
+
+def effect2() {
+	put '6'
+    sendEvent(name: "switch", value: "on" )
+}
+
+def setColor(value) {
+	log.debug "setColor: ${value.hue} and setSaturation: ${value.saturation}"
+    def rgb = rgbToShieldRgb(value.red, value.green, value.blue);
+}
+
+def rgbToShieldRgb(r,g,b){
+	r = r
+    b = b
+    g = g
+    put "$r,$g,$b"
+    log.debug "Switch set to $r,$g,$b"
+}
+
+def setLevel(value){
+	call "$value"
+    log.debug "$value"
+    
+}
+
+
+
+def poll() {
+	log.debug "Executing 'poll'"
+	 checkStatus ()	
+}
+
+def refresh() {
+	log.debug "executing 'refresh'"
+	checkStatus()
+
+}
+def checkStatus(){
+	
+	httpGet(uri: "https://api.particle.io/v1/devices/${deviceId}/checkStatus1?access_token=${token}",
+    	contentType: 'application/json',)
+    {resp ->           
+            log.debug "resp data: ${resp.data}"
+            log.debug "result: ${resp.data.result}"
+		sendEvent(name: "switch", value: "${resp.data.result}" )
+	}
+}
+
+
+private put(led) {
+
+    //Spark Core API Call
+
+    httpPost(
+
+        uri: "https://api.particle.io/v1/devices/${deviceId}/led",
+
+        body: [access_token: token, command: led],  
+
+    )
+
+}
+
+private call(dim) {
+
+    //Spark Core API Call
+
+    httpPost(
+
+        uri: "https://api.particle.io/v1/devices/${deviceId}/dim",
+
+        body: [access_token: token, command: dim],  
+
+    )
+
+}
