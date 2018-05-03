@@ -28,45 +28,33 @@ metadata {
 	preferences {
 		input("DeviceIP", "string", title:"Device IP Address", description: "Please enter your device's IP Address", required: true, displayDuringSetup: true)
 		input("DevicePort", "string", title:"Device Port", description: "Please enter port 80 or your device's Port", required: true, displayDuringSetup: true)
-/*		input("DevicePath", "string", title:"URL Path", description: "Rest of the URL, include forward slash.", displayDuringSetup: true)
-		input(name: "DevicePostGet", type: "enum", title: "POST or GET", options: ["POST","GET"], required: true, displayDuringSetup: true)
-		input("DeviceBodyText", "string", title:'Body Content', description: 'Type in "GateTrigger=" or "CustomTrigger="', required: true, displayDuringSetup: true)
-		input("UseJSON", "bool", title:"Use JSON instead of HTML?", description: "Use JSON instead of HTML?", defaultValue: false, required: false, displayDuringSetup: true)
-		section() {
-			input("HTTPAuth", "bool", title:"Requires User Auth?", description: "Choose if the HTTP requires basic authentication", defaultValue: false, required: true, displayDuringSetup: true)
-			input("HTTPUser", "string", title:"HTTP User", description: "Enter your basic username", required: false, displayDuringSetup: true)
-			input("HTTPPassword", "string", title:"HTTP Password", description: "Enter your basic password", required: false, displayDuringSetup: true)
-		}
-*/	
     }
-
-	simulator {
+}
+simulator {
 	}
-
-	tiles {
+tiles {
     
     multiAttributeTile(name:"DeviceTrigger", type:"generic", width:6, height:4) {
 			tileAttribute("device.triggerswitch", key: "PRIMARY_CONTROL") {
-				attributeState "triggeroff", label:'CLOSED' , action: "on", icon: "st.Home.home9", backgroundColor:"#ffffff", nextState: "trying"
-				attributeState "triggeron", label: 'OPEN', action: "off", icon: "st.Home.home9", backgroundColor: "#79b821", nextState: "trying"
+				attributeState "triggeroff", label:'IDLE' , action: "on", icon: "st.Home.home9", backgroundColor:"#ffffff", nextState: "trying"
+				attributeState "triggeron", label: 'ALARM', action: "off", icon: "st.Home.home9", backgroundColor: "#79b821", nextState: "trying"
 				attributeState "trying", label: 'TRYING', action: "", icon: "st.Home.home9", backgroundColor: "#FFAA33"
 		}
 	}  
 }
 
 def on() {
-    log.debug "Triggered OPEN!!!"
-    def myLevel = device.latestValue("level")
+    log.debug "Triggered ALARM!!!"
 	sendEvent(name: "triggerswitch", value: "triggeron", isStateChange: true)
-    state.blinds = "on";
-	runCmd("100")
+    state.alarm = "on";
+	runCmd("ON")
 }
 
 def off() {
-	log.debug "Triggered CLOSE!!!"
+	log.debug "Triggered IDLE!!!"
 	sendEvent(name: "triggerswitch", value: "triggeroff", isStateChange: true)
-    state.blinds = "off";
-	runCmd("0")
+    state.alarm = "off";
+	runCmd("OFF")
 }    
 
 def runCmd(String varCommand) {
@@ -124,13 +112,13 @@ def runCmd(String varCommand) {
 def parse(String description) {
 	//log.debug "Parsing '${description}'"
 	def whichTile = ''	
-	log.debug "state.blinds " + state.blinds
+	log.debug "state.alarm " + state.alarm
 	
-    if (state.blinds == "on") {
+    if (state.alarm == "on") {
     	//sendEvent(name: "triggerswitch", value: "triggergon", isStateChange: true)
         whichTile = 'mainon'
     }
-    if (state.blinds == "off") {
+    if (state.alarm == "off") {
     	//sendEvent(name: "triggerswitch", value: "triggergoff", isStateChange: true)
         whichTile = 'mainoff'
     }
