@@ -37,6 +37,8 @@ Servo servoA;
 String webPage = "";
 
 void setup(void) {
+WiFi.mode(WIFI_STA);
+  delay(1000);
   pinMode(buttonPin, INPUT_PULLUP);
   Serial.begin(9600);
   delay(500);
@@ -90,14 +92,38 @@ void loop() {
 
 buttonState = digitalRead(buttonPin);
 
-if(buttonState == LOW && setting == 90){
-  setting==0
+if(buttonState == LOW && setting < 90 && direction == 0){
+  setting++;
+  delay(0);
+  if(setting == 90){
+    delay(1000);
+    direction = 1;
+    }
   }
   
-if(buttonState == LOW && setting == 0){    }
-  setting ==90
+if(buttonState == LOW && setting > 0 && direction == 1){
+  setting--;
+  delay(0);
+  if(setting == 0){
+    direction = 0;
+    delay(1000);
+    }
   }
-    
+  
+if(buttonState == LOW && setting == 90 && direction == 0){
+  setting--;
+  delay(1000);
+  }
+
+if(buttonState == LOW && setting == 0 && direction == 1){
+  setting++;
+  delay(1000);
+  }
+  if(buttonState == LOW && setting > 90){
+  setting--;
+  direction = 1;
+  delay(0);
+  }
 if(position < setting){
    servoA.attach(servoPin);
    servoA.write(position++);
