@@ -78,8 +78,8 @@
 //******************************************************************************************
 //ESP8266 WiFi Information
 //******************************************************************************************
-String str_ssid     = "Caslerville";                           //  <---You must edit this line!
-String str_password = "toomanysecrets";                   //  <---You must edit this line!
+String str_ssid     = "YOURWIFI";                           //  <---You must edit this line!
+String str_password = "YOURPASSWORD";                   //  <---You must edit this line!
 IPAddress ip(192, 168, 1, 44);       //Device IP Address       //  <---You must edit this line!
 IPAddress gateway(192, 168, 1, 1);    //Router gateway          //  <---You must edit this line!
 IPAddress subnet(255, 255, 255, 0);   //LAN subnet mask         //  <---You must edit this line!

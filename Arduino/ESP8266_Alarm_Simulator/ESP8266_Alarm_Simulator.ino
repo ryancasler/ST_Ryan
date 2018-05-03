@@ -20,8 +20,8 @@
 #include <ESP8266mDNS.h>
 #include <Servo.h>
 
-#define WLAN_SSID       "YOUR WIFI SSID" //change to your Wifi SSID
-#define WLAN_PASS       "YOUR WIFI PASSWORD" //change to your Wifi Password
+#define WLAN_SSID       "YOURWIFINAME" //change to your Wifi SSID
+#define WLAN_PASS       "YOURPASSWORD" //change to your Wifi Password
 
 MDNSResponder mdns;
 ESP8266WebServer server(80);
