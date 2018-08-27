@@ -6,7 +6,7 @@
  *   
  */
 metadata {
-	definition (name: "Child Washing Machine Sensor", namespace: "ryancasler", author: "Ryan Casler") {
+	definition (name: "Child Power Sensor", namespace: "ryancasler", author: "Ryan Casler") {
 		capability "Contact Sensor"
 		capability "Sensor"
 
@@ -18,9 +18,9 @@ metadata {
 	tiles(scale: 2) {
 		multiAttributeTile(name:"contact", type: "generic"){
 			tileAttribute ("device.contact", key: "PRIMARY_CONTROL") {
-				attributeState "closed", label:'inactive', icon:"st.Appliances.appliances1", backgroundColor:"#cccccc"
-				attributeState "open", label:'done', icon:"st.Appliances.appliances1", backgroundColor:"#e86d13"
-            }
+				attributeState "open", label:'power failure', icon:"st.alarm.alarm.alarm", backgroundColor:"#ff0000"
+				attributeState "closed", label:'normal', icon:"st.security.alarm.clear", backgroundColor:"#79b821"
+}
  			tileAttribute("device.lastUpdated", key: "SECONDARY_CONTROL") {
     				attributeState("default", label:'    Last updated ${currentValue}',icon: "st.Health & Wellness.health9")
             }

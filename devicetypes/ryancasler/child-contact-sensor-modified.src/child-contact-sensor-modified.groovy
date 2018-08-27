@@ -34,8 +34,8 @@ metadata {
 	tiles(scale: 2) {
 		multiAttributeTile(name:"contact", type: "generic"){
 			tileAttribute ("device.contact", key: "PRIMARY_CONTROL") {
-				attributeState "closed", label:'pushed', icon:"st.security.alarm.alarm", backgroundColor:"#e86d13"
-				attributeState "open", label:'inactive', icon:"st.Lighting.light99-hue", backgroundColor:"#cccccc"
+				attributeState "open", label:'pushed', icon:"st.security.alarm.alarm", backgroundColor:"#e86d13"
+				attributeState "closed", label:'inactive', icon:"st.Lighting.light99-hue", backgroundColor:"#cccccc"
             }
  			tileAttribute("device.lastUpdated", key: "SECONDARY_CONTROL") {
     				attributeState("default", label:'    Last updated ${currentValue}',icon: "st.Health & Wellness.health9")
