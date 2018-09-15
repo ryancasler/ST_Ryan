@@ -7,11 +7,13 @@ metadata {
     attribute "Value3","string"
     attribute "Value4","string"
     attribute "Value5","string"
+    attribute "Value6","string"
     command "changeValue1"
     command "changeValue2"
     command "changeValue3"
     command "changeValue4"
     command "changeValue5"
+    command "changeValue6"
      }
  	tiles {
  		valueTile("Value1", "device.Value1", width: 3, height: 1, canChangeBackground: true) {
@@ -29,8 +31,11 @@ metadata {
  		valueTile("Value5", "device.Value5", width: 3, height: 1) {
  			state "default", label:'${currentValue}'
  		}
+ 		valueTile("Value6", "device.Value6", width: 3, height: 1) {
+ 			state "default", label:'${currentValue}'
+ 		}
  		main(["Value1"])
- 		details(["Value1","Value2","Value3","Value4","Value5"])
+ 		details(["Value1","Value2","Value3","Value4","Value5","Value6"])
  	}
  }
  def changeValue1 (param1) {
@@ -47,4 +52,7 @@ metadata {
 }
  def changeValue5 (param5) {
     sendEvent("name":"Value5", "value":param5)
+}
+ def changeValue6 (param5) {
+    sendEvent("name":"Value6", "value":param6)
 }
